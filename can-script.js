@@ -1,4 +1,4 @@
-// create a variable to store the products 'database' in
+// je déclare la viriable products
 var products;
 
 // use fetch to retrieve it, and report any errors that occur in the fetch operation

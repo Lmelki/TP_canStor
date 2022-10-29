@@ -12,43 +12,80 @@
 </head>
 
 <body>
-  <nav class="navbar bg-light">
+  <nav class="navbar mb-2 bg-primary text-white fixed-top">
     <div class="container-fluid">
-      <a class="navbar-brand">Le jardin en boite</a>
-      <form name="choix">
-        <div>
-          <label for="categorie">Choisissez une categorie :</label>
-          <select name="categorie">
-            <option selected value="0">Tous</option>
-            <option value="1">Légumes</option>
-            <option value="2">Soupes</option>
-            <option value="3">Viandes</option>
-          </select>
-          
-          <label for="nutri">Choisissez un nutri-score :</label>
-          <select name="nutri">
-            <option selected value="0">Tous</option>
-            <option value="A">A</option>
-            <option value="B">B</option>
-            <option value="C">C</option>
-            <option value="D">D</option>
-            <option value="E">E</option>
-            <option value="F">F</option>
-          </select>
-     
-          <label for="searchTerm">Entrez une recherche :</label>
-          <input type="text" id="searchTerm" placeholder="Soupe de carottes" autocomplete="off">
-      
-          <button>Voir le résultat</button>
-        </div>
-      </form>
+      <div id="btnReset">
+        <a class="navbar-brand" href="#">
+            <img src="/images/logom.jpg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+            Le Jardin de Melki
+        </a>
+      </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+            <span class="navbar-toggler-icon"></span>
+            <img src="/icons/loupe.png" class="d-inline-block align-text-top" width="30" height="30" alt="">
+        </button>
+          <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Le jardin de Melki</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="btn-group">
+              <button id="Panier" class="btn btn-dark" >
+              <img src="/images/panier.jpg"class="d-inline-block align-text-top rounded-circle" width="50" height="50" alt="">
+              <p id="count">0</p>
+              </button>
+            </div>
+            <div class="offcanvas-body">
+              <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
+                    <form name="choix" class="d-flex flex-wrap gap-2">
+                        <select class="form-select m-2" name="categorie">
+                          <option selected value="0">Catégories</option>
+                          <option value="1">Légumes</option>
+                          <option value="2">Soupes</option>
+                          <option value="3">Viandes</option>
+                        </select>
+
+                    <select class="form-select m-2" name="nutri">
+                        <option selected value="0">Nutri-Score</option>
+                        <option value="A" class="nutriA">A</option>
+                        <option value="B" class="nutriB">B</option>
+                        <option value="C" class="nutriC">C</option>
+                        <option value="D" class="nutriD">D</option>
+                        <option value="E" class="nutriE">E</option>
+                      </select>
+
+
+                   
+                  <label for="searchTerm"></label>
+                  <input class="form-control me-2 btn-small d-inline-block justify-content-end" type="text" id="searchTerm" placeholder="Rechecher" aria-label="Search" list="listeValeurs" autocomplete="off">
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  <datalist id="listeValeurs">
+                  </datalist>
+              </ul>
+              </form>
+            </div>
+          </div>
     </div>
   </nav>
-  
-    <main class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+ 
+  <div class="container-fluid">
+    <main class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4 p-3 mt-5 bg-dark bg-opacity-25">
 
     </main>
-  
+  </div>
+  <div>
   <footer class="container">
     <p><a href="https://github.com/NTT2023/TP_Canstore">TP BOUTIQUE (AJAX – JSON)</a>
 
@@ -57,7 +94,7 @@
       <li>Après lecture du script js, remplacer les commentaires pour une meilleure compréhension (plus succints et en
         français), simplifier et adapter le code. Adapter la page html pour le public
         français. La boutique s’appellera : "Au jardin en boite".</li>
-      <li> La méthode d’accès aux images est : function fetchBlob(product). Supprimer cette fonction puis utiliser
+      <li> La méthde d’accès aux images est : function fetchBlob(product). Supprimer cette fonction puis utiliser
         l’url de l’image transmise par le JSON pour paramétrer l’attribut « src » des images dans la function
         showProduct(objectURL, product) qui ne prendra donc plus qu’un argument « product ».</li>
       <li> Adapter le script pour faire fonctionner la page de présentation des produits avec le fichier JSON joint : «
@@ -72,7 +109,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
     crossorigin="anonymous"></script>
-
+  </div>
 </body>
 
 </html>

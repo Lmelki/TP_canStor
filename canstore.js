@@ -3,35 +3,13 @@ addDonnee();
 
 
 //sur le click
-document.querySelector('button').addEventListener(
-  'click', function (event) {event.preventDefault(); addDonnee();});
-// //créer event pour autocomplete
-// document.getElementById('searchTerm').addEventListener('keyup', function(event){autocompleteMatch(event)});
+document.getElementById('btnReset').addEventListener(
+  'click', function (event) {
+    event.preventDefault();
+    document.forms[0].reset();
+    addDonnee();
+  });
   
-// function autocompleteMatch(event) {
-//     var input = event.target;//recuperation de l'element input
-//     var saisie = input.value;//recuperation de la saisie
-//     var min_characters = 1;// minimum de caractères de la saisie
-//     if (!isNaN(saisie) || saisie.length < min_characters ) { 
-//       return [];
-//     }
-//     traiterReponse(saisie);
-//   }
-//   fetch('produits.json')
-//   .then(response => response.json()) // Obtention de la réponse
-//   .then(response => search_terms = response) // Transfert de la base de donnée dans la liste qui servira à chercher la correspondance
-//   .catch(error => console.log("Erreur : " + error));
-//   function traiterReponse(,saisie)
-//   {
-//     var listeValeurs = document.getElementById('searchTerm');
-//     listeValeurs.innerHTML = "";
-//     var reg = new RegExp(saisie,"i");//optioin i insensible à la casse
-//     let terms = data.filter(term => term.match(reg));
-//         for (i=0; i<terms.length; i++) {
-//           var option = document.createElement('option');
-//                       option.value = terms[i];
-//                       searchTerm.appendChild(option);
-//   }}
 //recup données
 function addDonnee() {
   fetch('produits.json').then(function (response) {
@@ -45,6 +23,49 @@ function addDonnee() {
   });
 }
 
+document.getElementById('searchTerm').addEventListener("keyup", function(event){autocompleteMatch(event)});
+
+function autocompleteMatch(event) {
+  var input = event.target;//recuperation de l'element input
+  var saisie = input.value;//recuperation de la saisie
+  var min_characters = 1;// minimum de caractères de la saisie
+  if (!isNaN(saisie) || saisie.length < min_characters ) { 
+    return [];
+  }
+  fetch('produits.json').then(function (response) {
+    if (response.ok) {
+      response.json().then(function (json) {
+        traiterReponse(json,saisie);
+       //lancement asynchrone !!
+      });
+    } else {
+      console.log('Network request for products.json failed with response ' + response.status + ': ' + response.statusText);
+    }
+  });
+}
+
+function traiterReponse(data,saisie)
+{
+var listeValeurs = document.getElementById('listeValeurs');
+listeValeurs.innerHTML="";//mise à blanc des options
+var reg = new RegExp(saisie, "i");//Ajout de la condition "i" sur le regexp 
+let terms = data.filter(term => term.nom.match(reg));//recup des termes qui match avec la saisie
+    for (i=0; i<terms.length; i++) {//création des options
+      var option = document.createElement('option');
+                  option.value = terms[i].nom;
+                  listeValeurs.appendChild(option);
+}
+  }
+//Autocomplétion dynamique directe
+document.forms[0].categorie.addEventListener("change", function() {
+  addDonnee();
+});
+document.forms[0].nutri.addEventListener("change", function() {
+    addDonnee();
+});
+document.forms[0].searchTerm.addEventListener("change", function() {
+      addDonnee();
+});
 //triage
 function triage(products) {
   var valeur = { 0: "tous", 1: "legumes", 2: "soupe", 3: "viande" }
@@ -85,34 +106,68 @@ function showProduct(finalGroup) {
     finalGroup.forEach(product => {
       var section = document.createElement('div');
       section.setAttribute('class', product.type);
-      section.classList.add("card");
+      // section.classList.add("card");
       section.classList.add("text-center");
-      section.classList.add("bg-info");
+      section.classList.add("bg-primary");
+      section.classList.add("bg-opacity-25");
       section.classList.add("p-5");
+      // section.classList.add("mb-4");
+      // section.classList.add("mt-4");
       var heading = document.createElement('div');
       heading.textContent = product.nom.replace(product.nom.charAt(0), product.nom.charAt(0).toUpperCase());
-      heading.className = 'card-title'; 
+      // heading.setAttribute("class", "titre")
       var foot = document.createElement('div');
       foot.className = 'card-footer text-muted';
-      // foot.classList.add("bg-warning");
       var para = document.createElement('p');
-      para.classList.add("text-danger");
       para.textContent = product.prix.toFixed(2) +"€";
+      para.setAttribute("class", "h5 text-danger p-2")
       var nutri = document.createElement('span');
-      nutri.setAttribute('class', "text-black")
-      nutri.classList.add('bg-green')
+      nutri.setAttribute('class', "d-inline rounded-pill p-2")
       nutri.textContent = product.nutriscore;
+      switch (nutri.textContent) {
+        case 'A':
+          nutri.classList.add('nutriA');
+          break;
+        case 'B':
+          nutri.classList.add('nutriB');
+          break;
+        case 'C':
+          nutri.classList.add('nutriC');
+          break;
+          case 'D':
+            nutri.classList.add('nutriD');
+            break;
+          case 'E':
+            nutri.classList.add('nutriE');
+            break;
+        default:
+          nutri.classList.add('nutriF'); 
+      }
+      
       var image = document.createElement('img');
-      image.className = 'card-img-top'; 
+      image.className = 'card-img-top';
+      image.classList.add("mt-3")
+      image.classList.add("rounded-4") 
       image.src = "images/" + product.image;
       image.alt = product.nom;
-      
-      section.appendChild(heading);
+      var button = document.createElement('button');
+      button.setAttribute("tyoe", "button");
+      button.setAttribute("class", "btn btn-outline-primary mt-3");
+      button.textContent='Ajouter au panier';
+      var titre = document.createElement('div')
+      titre.setAttribute("class", "titre")
+
+      var bloc = document.createElement('div');
+      titre.appendChild(heading)
+      section.appendChild(titre);
       section.appendChild(foot);
       foot.appendChild(para);
       foot.appendChild(nutri);
       section.appendChild(image);
-      main.appendChild(section);
+      section.appendChild(button)
+      bloc.appendChild(section)
+      main.appendChild(bloc);
+    
     });
    
   }

@@ -22,9 +22,8 @@ function addDonnee() {
     }
   });
 }
-//Autocomplétion
+//Autocomplétion dynamique directe
 document.getElementById('searchTerm').addEventListener("keyup", function(event){autocompleteMatch(event)});
-
 function autocompleteMatch(event) {
   var input = event.target;//recuperation de l'element input
   var saisie = input.value;//recuperation de la saisie
@@ -56,7 +55,7 @@ let terms = data.filter(term => term.nom.match(reg));//recup des termes qui matc
                   listeValeurs.appendChild(option);
 }
   }
-//Autocomplétion dynamique directe
+
 document.forms[0].categorie.addEventListener("change", function() {
   addDonnee();
 });
@@ -106,16 +105,12 @@ function showProduct(finalGroup) {
     finalGroup.forEach(product => {
       var section = document.createElement('div');
       section.setAttribute('class', product.type);
-      // section.classList.add("card");
       section.classList.add("text-center");
       section.classList.add("bg-primary");
       section.classList.add("bg-opacity-25");
       section.classList.add("p-5");
-      // section.classList.add("mb-4");
-      // section.classList.add("mt-4");
       var heading = document.createElement('div');
       heading.textContent = product.nom.replace(product.nom.charAt(0), product.nom.charAt(0).toUpperCase());
-      // heading.setAttribute("class", "titre")
       var foot = document.createElement('div');
       foot.className = 'card-footer text-muted';
       var para = document.createElement('p');
@@ -151,8 +146,9 @@ function showProduct(finalGroup) {
       image.src = "images/" + product.image;
       image.alt = product.nom;
       var button = document.createElement('button');
-      button.setAttribute("tyoe", "button");
+      button.setAttribute("type", "button");
       button.setAttribute("class", "btn btn-outline-primary mt-3");
+      button.setAttribute("onclick", "ajouterPanier()");
       button.textContent='Ajouter au panier';
       var titre = document.createElement('div')
       titre.setAttribute("class", "titre")
@@ -172,9 +168,24 @@ function showProduct(finalGroup) {
    
   }
 }
+//affichage aléatoir des produits
 function affichageAleatoire(arr){
   for(var i = arr.length-1 ; i>0 ;i--){
       var j = Math.floor( Math.random() * (i + 1) );
       [arr[i],arr[j]]=[arr[j],arr[i]];
   }
 return arr;}
+
+//remplir le panier
+var nbProduits = 0
+var panier = document.getElementById('panier1')
+function ajouterPanier(){
+  nbProduits +=1
+  panier.innerText = (nbProduits);
+}
+function videPanier(){
+  nbProduits = 0
+  panier.innerText = (nbProduits);
+}
+
+

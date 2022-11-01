@@ -22,7 +22,7 @@ function addDonnee() {
     }
   });
 }
-
+//Autocomplétion
 document.getElementById('searchTerm').addEventListener("keyup", function(event){autocompleteMatch(event)});
 
 function autocompleteMatch(event) {

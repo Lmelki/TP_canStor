@@ -22,7 +22,7 @@ function addDonnee() {
     }
   });
 }
-//Autocomplétion dynamique directe
+//Autocomplétion
 document.getElementById('searchTerm').addEventListener("keyup", function(event){autocompleteMatch(event)});
 function autocompleteMatch(event) {
   var input = event.target;//recuperation de l'element input
@@ -42,20 +42,20 @@ function autocompleteMatch(event) {
     }
   });
 }
-
+// traitement de données à afficher
 function traiterReponse(data,saisie)
 {
 var listeValeurs = document.getElementById('listeValeurs');
-listeValeurs.innerHTML="";//mise à blanc des options
-var reg = new RegExp(saisie, "i");//Ajout de la condition "i" sur le regexp 
-let terms = data.filter(term => term.nom.match(reg));//recup des termes qui match avec la saisie
-    for (i=0; i<terms.length; i++) {//création des options
+listeValeurs.innerHTML="";
+var reg = new RegExp(saisie, "i");
+let terms = data.filter(term => term.nom.match(reg));
+    for (i=0; i<terms.length; i++) {
       var option = document.createElement('option');
                   option.value = terms[i].nom;
                   listeValeurs.appendChild(option);
 }
   }
-
+// remplissage dynamique
 document.forms[0].categorie.addEventListener("change", function() {
   addDonnee();
 });
